@@ -16,9 +16,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileInputStream;
 
-/**
- * Created by dell on 2016/1/24.
- */
+
 public class MusicFragment extends Fragment implements View.OnClickListener {
     private Button play;
     private Button pause;
@@ -50,21 +48,21 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initMediaPlayer() {
-        File file = new File(Environment.getExternalStorageDirectory() + "/Music");
-        if(file.exists()&&file.isDirectory()) {
-            list = file.listFiles();
-        }
-            fileInputStream = null;
-            try {
-                fileInputStream = new FileInputStream(list[singIndex]);
-                mediaPlayer.setDataSource(fileInputStream.getFD());
-                mediaPlayer.prepare();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         new Thread(new Runnable() {
             @Override
             public void run() {
+                File file = new File(Environment.getExternalStorageDirectory() + "/Music");
+                if(file.exists()&&file.isDirectory()) {
+                    list = file.listFiles();
+                }
+                fileInputStream = null;
+                try {
+                    fileInputStream = new FileInputStream(list[singIndex]);
+                    mediaPlayer.setDataSource(fileInputStream.getFD());
+                    mediaPlayer.prepare();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Message message=new Message();
                 message.obj=list[0].toString();
                 handler.sendMessage(message);
@@ -92,7 +90,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void run() {
                             Message message=new Message();
-                            message.obj=(String)list[singIndex];
+                            message.obj=list[singIndex%list.length].toString();
                             handler.sendMessage(message);
                         }
                     }).start();
