@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="所以，这个APP只是一个总结吗？\n┑(￣Д ￣)┍怎么可能这么Low!\n"
+        android:textColor="@color/colorRed"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/face3"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="//写了很多的小demo，比如：\n喜闻乐见的从网络中下载文件功能,个人电话本,短信系统.\n但是就是找不到一个主题啊喂/(ㄒoㄒ)/~~！\nOrz我需要一个美工和产品经理。。。哦，还有后台大神，嗯，没错就是他:)"
+        android:textColor="@color/colorRed"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background2"/>
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/wenzhang"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Fortune"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:textColor="@color/colorRed"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorYellow">
+        <TextView
+            android:id="@+id/sstudywhat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="寒假的成果"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/sstudynote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="我的笔记本"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/sfunction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:text="本APP功能"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cursor"
+        android:layout_width="60dp"
+        android:layout_height="2dp"
+        android:scaleType="matrix"
+        android:background="#af040f"
+        android:layout_marginLeft="20dp"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation"/>
+
+</LinearLayout>
