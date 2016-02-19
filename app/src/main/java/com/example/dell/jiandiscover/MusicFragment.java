@@ -22,6 +22,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private File dirFile;
     private Button playBtn;
     private Button nextBtn;
+    private File songFile;
     private TextView songNameTxt;
     private TextView ListSongTxt;
     private MediaPlayer mediaPlayer = new MediaPlayer();
@@ -32,7 +33,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             String viewMsg=(String) msg.obj;
-            songNameTxt.setText(viewMsg.replaceAll("(/\\w+){1,4}/?", ""));
+            songNameTxt.setText(viewMsg);
         }
     };
     private   FileInputStream fileInputStream;
@@ -69,7 +70,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
             list = dirFile.listFiles();
         }
         for(int i=0;i<list.length;i++){
-            songList.append(list[i].toString().replaceAll("(/\\w+){1,4}/?",""));
+            songList.append(list[i].getName().toString());
             songList.append("\n");
         }
     }
@@ -87,7 +88,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 Message message=new Message();
-                message.obj=list[singIndex].toString();
+                message.obj=list[singIndex].getName().toString();
                 System.out.print(message.toString());
                 handler.sendMessage(message);
             }
