@@ -33,5 +33,14 @@
             android:layout_weight="1"
             android:text="下一首"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌曲目录"/>
+    <TextView
+        android:id="@+id/txt_list_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

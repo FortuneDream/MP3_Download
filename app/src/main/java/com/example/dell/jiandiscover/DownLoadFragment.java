@@ -59,7 +59,7 @@ public class DownLoadFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public synchronized void onClick(View v) {
         urladdress=urlAddress.getText().toString();
         singname=singName.getText().toString();
         //不能在oncreateview里面设置getText，因为此时的view已经返回了固定下来了，只能通过监听回调。
@@ -81,5 +81,4 @@ public class DownLoadFragment extends Fragment implements View.OnClickListener {
             }
         }).start();
     }
-
 }

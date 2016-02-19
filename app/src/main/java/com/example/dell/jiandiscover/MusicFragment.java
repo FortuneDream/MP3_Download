@@ -22,13 +22,15 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private Button pause;
     private Button next;
     private TextView singname;
+    private TextView txtListSong;
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private File list[];
     public static int singIndex=0;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            singname.setText((String)msg.obj);
+            String viewMsg=(String) msg.obj;
+            singname.setText(viewMsg.replaceAll("/(\\w)+/(\\w)+/(\\w)/+(\\w)+/", ""));
         }
     };
     private   FileInputStream fileInputStream;
@@ -41,6 +43,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         play = (Button) view.findViewById(R.id.play);
         next = (Button) view.findViewById(R.id.next);
         singname=(TextView)view.findViewById(R.id.txt_now_singname);
+        txtListSong=(TextView)view.findViewById(R.id.txt_list_song);
         play.setOnClickListener(this);
         next.setOnClickListener(this);
         initMediaPlayer();
@@ -64,14 +67,15 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 Message message=new Message();
-                message.obj=list[0].toString();
+                message.obj=list[singIndex].toString();
+                System.out.print(message.toString());
                 handler.sendMessage(message);
             }
         }).start();
     }
 
     @Override
-    public void onClick(View v) {
+    public synchronized void onClick(View v) {
         switch (v.getId()) {
             case R.id.play:
                 if (mediaPlayer.isPlaying()) {
