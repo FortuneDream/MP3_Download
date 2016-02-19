@@ -22,13 +22,12 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private File dirFile;
     private Button playBtn;
     private Button nextBtn;
-    private File songFile;
     private TextView songNameTxt;
     private TextView ListSongTxt;
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private File list[];
     private StringBuffer songList=new StringBuffer();
-    public static int singIndex=0;
+    public static int fileIndex =0;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -81,14 +80,14 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
             public void run() {
                 fileInputStream = null;
                 try {
-                    fileInputStream = new FileInputStream(list[singIndex]);
+                    fileInputStream = new FileInputStream(list[fileIndex]);
                     mediaPlayer.setDataSource(fileInputStream.getFD());
                     mediaPlayer.prepare();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Message message=new Message();
-                message.obj=list[singIndex].getName().toString();
+                message.obj=list[fileIndex].getName().toString();
                 System.out.print(message.toString());
                 handler.sendMessage(message);
             }
@@ -109,13 +108,13 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                fileInputStream = null;
                 try {
                     mediaPlayer.reset();//修改了路径后要记得reset
-                    fileInputStream = new FileInputStream(list[(++singIndex)%list.length]);
+                    fileInputStream = new FileInputStream(list[(++fileIndex)%list.length]);
                     mediaPlayer.setDataSource(fileInputStream.getFD());
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             Message message=new Message();
-                            message.obj=list[singIndex%list.length].toString();
+                            message.obj=list[fileIndex %list.length].getName().toString();
                             handler.sendMessage(message);
                         }
                     }).start();
@@ -137,6 +136,6 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
             mediaPlayer.release();
         }
         songList.delete(0,songList.length()-1);
-        singIndex=0;
+        fileIndex =0;
     }
 }
