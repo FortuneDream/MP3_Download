@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background1">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,10 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="//写了很多的小demo，比如：\n喜闻乐见的从网络中下载文件功能,播放音乐.（嗯，之前ContentProvider做过电话本，收发短信，就不放上来了。完全是模板~）\n但是就是找不到一个主题啊喂/(ㄒoㄒ)/~~！\nOrz我需要一个美工，PM，后台。。。"
+        android:text="//写了很多的小demo，比如：\n喜闻乐见的从网络中下载文件功能,播放音乐.（嗯，之前利用ContentProvider做过电话本，利用sharepreference存储的登录界面，多媒体的收发短信，就不放上来了。完全是模板~）\n但是就是找不到一个主题啊喂/(ㄒoㄒ)/~~！\nOrz我需要一个美工，PM，后台。。。
+        "
         android:textColor="@color/text_Red"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background2"/>
 </LinearLayout>
