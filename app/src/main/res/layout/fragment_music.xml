@@ -5,45 +5,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Download mp3 or txt"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="Mp3 Player"
+        android:textColor="@color/text_Red"
+        android:textSize="25sp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="下载地址："/>
-    <EditText
-        android:id="@+id/url_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_gravity="center"
+        android:text="当前歌名"/>
+    <TextView
+        android:id="@+id/txt_now_song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
+        <Button
+            android:id="@+id/btn_play"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="文件名：\n默认Music文件夹"
-            android:textSize="10sp"/>
-        <EditText
-            android:id="@+id/sing_name"
+            android:text="播放/暂停"/>
+        <Button
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"/>
+            android:layout_weight="1"
+            android:text="下一首"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/download_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="下载"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="下载信息："/>
+        android:text="歌曲目录"
+        android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/info"
+        android:id="@+id/txt_list_song"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

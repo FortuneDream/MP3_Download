@@ -3,8 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorRed">#ff5252</color>
+    <color name="text_Red">#ff5252</color>
     <color name="colorBlue">#03A9F4</color>
     <color name="colorSBlue">#B3E5FC</color>
-    <color name="colorYellow">#FFC107</color>
+    <color name="bar_colorYellow">#FFC107</color>
 </resources>

@@ -3,35 +3,34 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
         <TextView
-            android:id="@+id/wenzhang"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="Fortune"
             android:textSize="25sp"
             android:gravity="center"
-            android:textColor="@color/colorRed"/>
+            android:textColor="@color/text_Red"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorYellow">
+        android:background="@color/bar_colorYellow">
         <TextView
-            android:id="@+id/sstudywhat"
+            android:id="@+id/txt_study_what"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="寒假的成果"
             android:layout_margin="10dp"/>
         <TextView
-            android:id="@+id/sstudynote"
+            android:id="@+id/txt_study_note"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="我的笔记本"
             android:layout_margin="10dp"/>
         <TextView
-            android:id="@+id/sfunction"
+            android:id="@+id/txt_function"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,7 +39,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/cursor"
+        android:id="@+id/img_cursor"
         android:layout_width="60dp"
         android:layout_height="2dp"
         android:scaleType="matrix"

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class HomepageFragment extends Fragment {
     private Resources resources;
-    private TextView view1, view2, view3;
+    private TextView studyWhatTxt, studyNoteTxt, functionTxt;
     private ViewPager mPager;
     private ArrayList<Fragment> fragmentList;
     private ImageView image;
@@ -41,7 +41,7 @@ public class HomepageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.homepage,container,false);
+        View view=inflater.inflate(R.layout.fragment_homepage,container,false);
         resources=getResources();
         InitImage(view);
         InitTextView(view);
@@ -49,54 +49,14 @@ public class HomepageFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//    }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//    }
-
     public void InitTextView(View parentView){
-        view1 = (TextView)parentView.findViewById(R.id.sstudywhat);
-        view2 = (TextView)parentView.findViewById(R.id.sstudynote);
-        view3 = (TextView)parentView.findViewById(R.id.sfunction);
+        studyWhatTxt = (TextView)parentView.findViewById(R.id.txt_study_what);
+        studyNoteTxt = (TextView)parentView.findViewById(R.id.txt_study_note);
+        functionTxt = (TextView)parentView.findViewById(R.id.txt_function);
 
-        view1.setOnClickListener(new txListener(0));
-        view2.setOnClickListener(new txListener(1));
-        view3.setOnClickListener(new txListener(2));
+        studyWhatTxt.setOnClickListener(new txListener(0));
+        studyNoteTxt.setOnClickListener(new txListener(1));
+        functionTxt.setOnClickListener(new txListener(2));
     }
 
 
@@ -118,7 +78,7 @@ public class HomepageFragment extends Fragment {
      * 初始化图片的位移像素
      */
     public void InitImage(View parentView){
-        image = (ImageView)parentView.findViewById(R.id.cursor);
+        image = (ImageView)parentView.findViewById(R.id.img_cursor);
         bmpW = image.getLayoutParams().width;
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -145,7 +105,7 @@ public class HomepageFragment extends Fragment {
         fragmentList.add(tabFunctionFragment);
 
         //给ViewPager设置适配器
-        mPager.setAdapter(new HomepageFragmentAdapter(getChildFragmentManager() , fragmentList));
+        mPager.setAdapter(new HomepageViewpagerAdapter(getChildFragmentManager() , fragmentList));
         mPager.setCurrentItem(0);//设置当前显示标签页为第一页
 
         mPager.addOnPageChangeListener(new MyOnPageChangeListener());//页面滑动监听器

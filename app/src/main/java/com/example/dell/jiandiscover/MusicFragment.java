@@ -1,5 +1,6 @@
 package com.example.dell.jiandiscover;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,46 +19,65 @@ import java.io.FileInputStream;
 
 
 public class MusicFragment extends Fragment implements View.OnClickListener {
-    private Button play;
-    private Button pause;
-    private Button next;
-    private TextView singname;
-    private TextView txtListSong;
+    private File dirFile;
+    private Button playBtn;
+    private Button nextBtn;
+    private TextView songNameTxt;
+    private TextView ListSongTxt;
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private File list[];
+    private StringBuffer songList=new StringBuffer();
     public static int singIndex=0;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             String viewMsg=(String) msg.obj;
-            singname.setText(viewMsg.replaceAll("/(\\w)+/(\\w)+/(\\w)/+(\\w)+/", ""));
+            songNameTxt.setText(viewMsg.replaceAll("(/\\w+){1,4}/?", ""));
         }
     };
     private   FileInputStream fileInputStream;
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        initMediaPath();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.music, container, false);
-        play = (Button) view.findViewById(R.id.play);
-        next = (Button) view.findViewById(R.id.next);
-        singname=(TextView)view.findViewById(R.id.txt_now_singname);
-        txtListSong=(TextView)view.findViewById(R.id.txt_list_song);
-        play.setOnClickListener(this);
-        next.setOnClickListener(this);
-        initMediaPlayer();
+        View view = inflater.inflate(R.layout.fragment_music, container, false);
+        initview(view);
         return view;
+    }
+    public void initview(View view)
+    {
+        playBtn = (Button) view.findViewById(R.id.btn_play);
+        nextBtn = (Button) view.findViewById(R.id.btn_next);
+        songNameTxt =(TextView)view.findViewById(R.id.txt_now_song_name);
+        ListSongTxt =(TextView)view.findViewById(R.id.txt_list_song);
+        playBtn.setOnClickListener(this);
+        nextBtn.setOnClickListener(this);
+        ListSongTxt.setText(songList.toString());
+        initMediaPlayer();
+    }
+
+    private void initMediaPath() {
+        dirFile = new File(Environment.getExternalStorageDirectory() + "/Music");
+        if(dirFile.exists()&& dirFile.isDirectory()) {
+            list = dirFile.listFiles();
+        }
+        for(int i=0;i<list.length;i++){
+            songList.append(list[i].toString().replaceAll("(/\\w+){1,4}/?",""));
+            songList.append("\n");
+        }
     }
 
     private void initMediaPlayer() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                File file = new File(Environment.getExternalStorageDirectory() + "/Music");
-                if(file.exists()&&file.isDirectory()) {
-                    list = file.listFiles();
-                }
                 fileInputStream = null;
                 try {
                     fileInputStream = new FileInputStream(list[singIndex]);
@@ -77,14 +97,14 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     @Override
     public synchronized void onClick(View v) {
         switch (v.getId()) {
-            case R.id.play:
+            case R.id.btn_play:
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                 } else {
                     mediaPlayer.start();
                 }
                 break;
-            case R.id.next:
+            case R.id.btn_next:
                fileInputStream = null;
                 try {
                     mediaPlayer.reset();//修改了路径后要记得reset
@@ -115,6 +135,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
+        songList.delete(0,songList.length()-1);
         singIndex=0;
     }
 }

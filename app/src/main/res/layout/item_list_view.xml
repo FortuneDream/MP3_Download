@@ -6,5 +6,5 @@
         android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorRed"/>
+        android:textColor="@color/text_Red"/>
 </LinearLayout>

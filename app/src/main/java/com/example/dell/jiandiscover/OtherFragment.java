@@ -14,7 +14,7 @@ public class OtherFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.other,container,false);
+        View view=inflater.inflate(R.layout.fragement_other,container,false);
         return view;
     }
 }
