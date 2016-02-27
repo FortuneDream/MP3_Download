@@ -65,6 +65,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_music, container, false);
         initview(view);
         initMediaPlayer();
+        Progress();
         return view;
     }
     public void initview(View view)
@@ -105,7 +106,23 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                                            }
         );
     }
-
+    private void Progress()
+    {
+        final int seconds=100;
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        sleep(seconds);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    handler.sendEmptyMessage(3);
+                }
+            }
+        }.start();
+    }
     private void getAllMusic(){
         ContentResolver cr=getActivity().getApplication().getContentResolver();
         if(cr==null){
@@ -134,27 +151,19 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                 try {
                     mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
                     mediaPlayer.prepareAsync();//prepare是同步
-                    final int seconds=100;
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            while (true) {
-                                try {
-                                    sleep(seconds);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                handler.sendEmptyMessage(3);
-                            }
-                        }
-                    }.start();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Message message = new Message();
-                message.what=4;
-                message.obj = songItemList.get(songIndex).getTitle();
-                handler.sendMessage(message);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message = new Message();
+                        message.what=4;
+                        message.obj = songItemList.get(songIndex).getTitle();
+                        handler.sendMessage(message);
+                    }
+                }).start();
             }
 
     @Override
