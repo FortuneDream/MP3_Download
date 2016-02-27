@@ -31,7 +31,7 @@ public class TabStudyWhatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.viewpager_fragment_studywhat,container,false);
         listView=(ListView) view.findViewById(R.id.listview);
-        StudyListAdapter adapter=new StudyListAdapter(getActivity(),R.layout.item_list_view,list);
+        StudyListAdapter adapter=new StudyListAdapter(getActivity(),R.layout.item_listview_study,list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
