@@ -27,7 +27,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private Button playBtn;
     private Button nextBtn;
     private TextView songNameTxt;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer=new MediaPlayer();
     private SeekBar seekBar;
     private ListView listView;
     private List<SongItem> songItemList=new ArrayList<SongItem>();
@@ -147,7 +147,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
 
     }
     private void initMediaPlayer() {
-                mediaPlayer=new MediaPlayer();
+
                 try {
                     mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
                     mediaPlayer.prepareAsync();//prepare是同步
@@ -209,6 +209,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.release();
+            mediaPlayer=null;
         }
     }
 }

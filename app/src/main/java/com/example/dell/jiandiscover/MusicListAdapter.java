@@ -40,7 +40,7 @@ public class MusicListAdapter extends ArrayAdapter<SongItem> {
             viewHolder=(ViewHolder)view.getTag();
         }
         viewHolder.title.setText(songItem.getTitle());
-        viewHolder.title.setText(songItem.getSinger());
+        viewHolder.singer.setText(songItem.getSinger());
         return view;
     }
 }
