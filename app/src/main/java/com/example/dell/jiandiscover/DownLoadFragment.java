@@ -68,13 +68,13 @@ public class DownLoadFragment extends Fragment implements View.OnClickListener {
             public void run() {
                 if (urladdress.endsWith(".txt")) {
                     String response=httpDownloader.download(urladdress);
-                    Message message =new Message();
+                    Message message =handler.obtainMessage();
                     message.obj=response;
                     message.what=2;
                     handler.sendMessage(message);
                }else if(urladdress.endsWith(".mp3")) {
                     int result=httpDownloader.downFile(urladdress, "Music/" ,  singname+".mp3");
-                    Message message =new Message();
+                    Message message =handler.obtainMessage();
                     message.what=result;
                     handler.sendMessage(message);
                 }

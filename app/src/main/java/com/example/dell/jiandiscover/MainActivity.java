@@ -44,7 +44,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();//返回一个BackStackRecord（extend FragmentTransaction），记录一个操作。replace，add等操作
         switch (v.getId()) {
             case R.id.ic_homepage_fragment:
                 if (homepageFragment == null) {
