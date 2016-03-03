@@ -1,4 +1,4 @@
 # JianDiscover
-使用前一定要用把SD卡中的Music文件夹里面的文件全部弄成.mp3的。。。
-╮(╯▽╰)╭否则可能会崩溃哦~
-哈哈哈哈哈哈哈哈
+显示了mp3播放器功能和下载功能
+主要用到：Viewpager,HttpURLConnection,MediaPlayer,Handler
+貌似有点小bug，在播放音乐的时候切换界面会炸=，=，目前还没有找到原因，求解
