@@ -4,7 +4,6 @@ package com.example.dell.jiandiscover;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,7 +19,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("MainActivity", "onCreate");
         homepageImg = (ImageView) findViewById(R.id.ic_homepage_fragment);
         musicImg = (ImageView) findViewById(R.id.ic_music_fragment);
         downloadImg = (ImageView) findViewById(R.id.ic_download_fragment);
