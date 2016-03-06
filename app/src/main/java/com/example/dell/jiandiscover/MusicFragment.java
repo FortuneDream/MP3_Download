@@ -31,20 +31,16 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private MediaPlayer mediaPlayer;
     private SeekBar seekBar;
     private ListView listView;
-    private List<SongItem> songItemList=new ArrayList<SongItem>();
+    private List<SongItem> songItemList = new ArrayList<SongItem>();
     private boolean isResume;
     public int songIndex;
 
-    private  Handler mHandler =new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
-                    int position=mediaPlayer.getCurrentPosition();//歌曲的总时间
-                    int time=mediaPlayer.getDuration();//歌曲总时间
-                    int max = seekBar.getMax();
-                    Log.e("MusicFragment",position+"...");
-                    seekBar.setProgress(position * max / time);
+                    seekBar.setProgress((Integer) msg.obj);
                     break;
                 default:
                     break;
@@ -56,10 +52,9 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.e("MusicFragment","onCreate");
         getAllMusic();
-        isResume=true;
-        songIndex=0;
+        isResume = true;
+        songIndex = 0;
         super.onCreate(savedInstanceState);
 
     }
@@ -67,7 +62,6 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("MusicFragment","onCreateView");
         View view = inflater.inflate(R.layout.fragment_music, container, false);
         initMediaPlayer();
         initview(view);
@@ -75,21 +69,31 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void initview(View view)
-    {
-        listView=(ListView)view.findViewById(R.id.listview_song);
-        seekBar=(SeekBar)view.findViewById(R.id.seekbar);
+    public void initview(View view) {
+        listView = (ListView) view.findViewById(R.id.listview_song);
+        seekBar = (SeekBar) view.findViewById(R.id.seekbar);
         playBtn = (Button) view.findViewById(R.id.btn_play);
         nextBtn = (Button) view.findViewById(R.id.btn_next);
-        songNameTxt =(TextView)view.findViewById(R.id.txt_now_song_name);
+        songNameTxt = (TextView) view.findViewById(R.id.txt_now_song_name);
         playBtn.setOnClickListener(this);
         nextBtn.setOnClickListener(this);
         songNameTxt.setText(songItemList.get(songIndex).getTitle());
+        seekBar.setProgress(0);
         listView.setAdapter(new MusicListAdapter(getActivity(), R.layout.item_listview_music, songItemList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                try {
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();//修改了路径后要记得reset
+                    mediaPlayer.setDataSource(songItemList.get(position).getUrl());
+                    songIndex = position;
+                    songNameTxt.setText(songItemList.get(songIndex).getTitle());
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         //手动调整进度条，音乐变化
@@ -114,9 +118,9 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                                            }
         );
     }
-    private void Progress()
-    {
-        final int seconds=500;
+
+    private void Progress() {
+        final int seconds = 500;
         new Thread() {
             @Override
             public void run() {
@@ -126,75 +130,83 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (isResume)
-                        mHandler.sendEmptyMessage(0);
+                    if (isResume) {
+                        int position = mediaPlayer.getCurrentPosition();//歌曲的总时间
+                        int time = mediaPlayer.getDuration();//歌曲总时间
+                        int max = seekBar.getMax();
+                        int offset=position * max / time;
+                        Message message=mHandler.obtainMessage();
+                        message.what=0;
+                        message.obj=offset;
+                        mHandler.sendMessage(message);
                     }
                 }
+            }
         }.start();
     }
-
-    private void getAllMusic(){
-        ContentResolver cr=getActivity().getApplication().getContentResolver();
-        if(cr==null){
-            return ;
+    private void getAllMusic() {
+        ContentResolver cr = getActivity().getApplication().getContentResolver();
+        if (cr == null) {
+            return;
         }
         //获取所有歌曲
-        Cursor cursor=cr.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,null,null,null,MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        if(cursor==null){
-            return ;
+        Cursor cursor = cr.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        if (cursor == null) {
+            return;
         }
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));//歌曲名
                 String singer = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));//歌手名
                 String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));//专辑名
                 long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));//歌曲大小
                 int duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));//总播放长度
                 String url = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));//歌曲地址
-                songItemList.add(new SongItem(title,singer,url));
-            }while(cursor.moveToNext());
+                songItemList.add(new SongItem(title, singer, url));
+            } while (cursor.moveToNext());
         }
 
     }
+
     private void initMediaPlayer() {
-        mediaPlayer=new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
         try {
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
-                mediaPlayer.prepare();//prepare是同步,prepareAsync异步
-                Progress();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
+            mediaPlayer.prepare();//prepare是同步,prepareAsync异步
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Progress();
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-                if(mediaPlayer!=null) {
+                if (mediaPlayer != null) {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                     } else {
                         mediaPlayer.start();
                     }
                 }
-                    break;
+                break;
             case R.id.btn_next:
                 try {
                     mediaPlayer.stop();
                     mediaPlayer.reset();//修改了路径后要记得reset
                     songIndex++;
-                    if(songIndex>=songItemList.size()){
-                        songIndex=0;
+                    if (songIndex >= songItemList.size()) {
+                        songIndex = 0;
                     }
                     mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
-                    songNameTxt.setText(songItemList.get(songIndex).getTitle());
                     mediaPlayer.prepare();
                     mediaPlayer.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                songNameTxt.setText(songItemList.get(songIndex).getTitle());
                 break;
             default:
                 break;
@@ -203,12 +215,12 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onPause() {
-        Log.e("MusicFragment","onPause");
-        isResume=false;
+        Log.e("MusicFragment", "onPause");
+        isResume = false;
         mediaPlayer.release();
         songItemList.clear();
-        mediaPlayer=null;
+        mediaPlayer = null;
         super.onPause();
-        }
+    }
 
 }

@@ -17,21 +17,24 @@
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:src="@drawable/ic_homepage_fragment"
-           android:clickable="true" />
+           android:clickable="true"
+           android:background="@drawable/button_view"/>
         <ImageView
             android:id="@+id/ic_music_fragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/ic_music_fragment"
-            android:clickable="true" />
+            android:clickable="true"
+            android:background="@drawable/button_view"/>
         <ImageView
             android:id="@+id/ic_download_fragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/ic_donwload_fragment"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:background="@drawable/button_view"/>
         <ImageView
             android:id="@+id/ic_other_fragment"
             android:layout_width="0dp"
@@ -39,7 +42,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_other_fragment"
             android:clickable="true"
-            />
+            android:background="@drawable/button_view" />
     </LinearLayout>
     <FrameLayout
         android:id="@+id/content"
