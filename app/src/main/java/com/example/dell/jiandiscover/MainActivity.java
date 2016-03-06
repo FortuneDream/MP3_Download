@@ -39,7 +39,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         transaction.replace(R.id.content, homepageFragment);
         //transaction.addToBackStack(null);
         transaction.commit();
-        Log.d("MainActivity", "APP打开了");
     }
 
     @Override
