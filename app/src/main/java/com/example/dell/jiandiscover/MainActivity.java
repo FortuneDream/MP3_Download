@@ -50,67 +50,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     homepageFragment = new HomepageFragment();
                 }
                 transaction.replace(R.id.content, homepageFragment);
-                Log.d("MainActivity", "主页点击");
                 break;
             case R.id.ic_music_fragment:
                 if (musicFragment == null) {
                     musicFragment = new MusicFragment();
                 }
                 transaction.replace(R.id.content, musicFragment);
-                Log.d("MainActivity", "音乐点击");
                 break;
             case R.id.ic_download_fragment:
                 if (downLoadFragment == null) {
                     downLoadFragment = new DownLoadFragment();
                 }
                 transaction.replace(R.id.content, downLoadFragment);
-                Log.d("MainActivity", "下载点击");
                 break;
             case R.id.ic_other_fragment:
                 if (otherFragment == null) {
                     otherFragment = new OtherFragment();
                 }
                 transaction.replace(R.id.content, otherFragment);
-                Log.d("MainActivity", "其他点击");
                 break;
         }
         transaction.commit();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("MainActivity","onPause");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("MainActivity","onDestroy");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.e("MainActivity","onStart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("MainActivity","onStop");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.e("MainActivity","onRestart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("MainActivity","onResume");
     }
 }
 
