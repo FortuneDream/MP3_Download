@@ -20,7 +20,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.e("MainActivity", "onCreate");
         homepageImg = (ImageView) findViewById(R.id.ic_homepage_fragment);
         musicImg = (ImageView) findViewById(R.id.ic_music_fragment);
         downloadImg = (ImageView) findViewById(R.id.ic_download_fragment);
@@ -76,6 +76,42 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
         transaction.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("MainActivity","onPause");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("MainActivity","onDestroy");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("MainActivity","onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("MainActivity","onStop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e("MainActivity","onRestart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("MainActivity","onResume");
     }
 }
 

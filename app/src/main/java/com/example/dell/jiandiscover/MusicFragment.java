@@ -32,16 +32,16 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private SeekBar seekBar;
     private ListView listView;
     private List<SongItem> songItemList=new ArrayList<SongItem>();
-    private boolean isResume=true;
-    public static int songIndex =0;
+    private boolean isResume;
+    public int songIndex;
 
     private  Handler mHandler =new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    int position=mediaPlayer.getCurrentPosition();
-                    int time=mediaPlayer.getDuration();
+                    int position=mediaPlayer.getCurrentPosition();//歌曲的总时间
+                    int time=mediaPlayer.getDuration();//歌曲总时间
                     int max = seekBar.getMax();
                     Log.e("MusicFragment",position+"...");
                     seekBar.setProgress(position * max / time);
@@ -56,14 +56,18 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        Log.e("MusicFragment","onCreate");
         getAllMusic();
+        isResume=true;
+        songIndex=0;
+        super.onCreate(savedInstanceState);
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("MusicFragment","onCreateView");
         View view = inflater.inflate(R.layout.fragment_music, container, false);
         initMediaPlayer();
         initview(view);
@@ -112,7 +116,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     }
     private void Progress()
     {
-        final int seconds=100;
+        final int seconds=500;
         new Thread() {
             @Override
             public void run() {
@@ -157,7 +161,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         try {
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
-                mediaPlayer.prepareAsync();//prepare是同步,prepareAsync异步
+                mediaPlayer.prepare();//prepare是同步,prepareAsync异步
                 Progress();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -178,7 +182,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     break;
             case R.id.btn_next:
                 try {
-                    mediaPlayer.pause();
+                    mediaPlayer.stop();
                     mediaPlayer.reset();//修改了路径后要记得reset
                     songIndex++;
                     if(songIndex>=songItemList.size()){
@@ -186,7 +190,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     }
                     mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
                     songNameTxt.setText(songItemList.get(songIndex).getTitle());
-                    mediaPlayer.prepareAsync();
+                    mediaPlayer.prepare();
                     mediaPlayer.start();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -198,15 +202,13 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        Log.e("MusicFragment","onPause");
         isResume=false;
-//        if (mediaPlayer != null&&mediaPlayer.isPlaying()) {
-//
-//        }
-        mediaPlayer.stop();
         mediaPlayer.release();
         songItemList.clear();
-
+        mediaPlayer=null;
+        super.onPause();
         }
+
 }
