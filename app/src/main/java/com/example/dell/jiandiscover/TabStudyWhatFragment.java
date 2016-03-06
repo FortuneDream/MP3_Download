@@ -55,7 +55,8 @@ public class TabStudyWhatFragment extends Fragment {
                 "线程的异步操作（Handler和AsyncTask）\n" +
                 "服务Servicce和通知Notification基本操作\n" +
                 "httpd服务器搭建\n" +
-                "收发短信\n";
+                "收发短信\n"+
+                "bmob\n";
         list.add(string_2);
         String string_3="JAVA：\n" +
                 "I/O流\n";

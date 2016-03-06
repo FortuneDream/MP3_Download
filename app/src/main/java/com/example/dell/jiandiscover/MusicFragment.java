@@ -2,6 +2,7 @@ package com.example.dell.jiandiscover;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,8 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private List<SongItem> songItemList=new ArrayList<SongItem>();
     private boolean isResume=true;
     public static int songIndex =0;
-    private Handler mHandler =new Handler(){
+
+    private  Handler mHandler =new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
@@ -40,11 +43,8 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     int position=mediaPlayer.getCurrentPosition();
                     int time=mediaPlayer.getDuration();
                     int max = seekBar.getMax();
+                    Log.e("MusicFragment",position+"...");
                     seekBar.setProgress(position * max / time);
-                    break;
-                case 1:
-                    String viewMsg=(String) msg.obj;
-                    songNameTxt.setText(viewMsg);
                     break;
                 default:
                     break;
@@ -80,7 +80,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
         songNameTxt =(TextView)view.findViewById(R.id.txt_now_song_name);
         playBtn.setOnClickListener(this);
         nextBtn.setOnClickListener(this);
-        seekBar.setProgress(0);
+        songNameTxt.setText(songItemList.get(songIndex).getTitle());
         listView.setAdapter(new MusicListAdapter(getActivity(), R.layout.item_listview_music, songItemList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -119,11 +119,11 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                 while (isResume) {
                     try {
                         sleep(seconds);
-                        System.out.print("进度条移动  ");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    mHandler.sendEmptyMessage(0);
+                    if (isResume)
+                        mHandler.sendEmptyMessage(0);
                     }
                 }
         }.start();
@@ -155,6 +155,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     private void initMediaPlayer() {
         mediaPlayer=new MediaPlayer();
         try {
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
                 mediaPlayer.prepareAsync();//prepare是同步,prepareAsync异步
                 Progress();
@@ -177,22 +178,15 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
                     break;
             case R.id.btn_next:
                 try {
+                    mediaPlayer.pause();
                     mediaPlayer.reset();//修改了路径后要记得reset
                     songIndex++;
                     if(songIndex>=songItemList.size()){
                         songIndex=0;
                     }
                     mediaPlayer.setDataSource(songItemList.get(songIndex).getUrl());
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Message message=mHandler.obtainMessage();
-                            message.what=1;
-                            message.obj=songItemList.get(songIndex).getTitle();
-                            mHandler.sendMessage(message);
-                        }
-                    }).start();
-                    mediaPlayer.prepare();
+                    songNameTxt.setText(songItemList.get(songIndex).getTitle());
+                    mediaPlayer.prepareAsync();
                     mediaPlayer.start();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -204,15 +198,15 @@ public class MusicFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroy() {
+        super.onDestroy();
         isResume=false;
-        if (mediaPlayer != null&&mediaPlayer.isPlaying()) {
-
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+//        if (mediaPlayer != null&&mediaPlayer.isPlaying()) {
+//
+//        }
+        mediaPlayer.stop();
+        mediaPlayer.release();
         songItemList.clear();
-        super.onDestroyView();
+
         }
 }

@@ -24,7 +24,9 @@ public class DownLoadFragment extends Fragment implements View.OnClickListener {
     private Button downloadBtn;
     private String urladdress;
     private String singname;
-    private Handler handler=new Handler(){
+
+
+    private  Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch(msg.what){
